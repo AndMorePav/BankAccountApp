@@ -7,16 +7,19 @@ import com.bank.reckoning.dto.AccountCreateDto;
 import com.bank.reckoning.dto.AccountViewDto;
 import com.bank.reckoning.dto.UserCreateDto;
 import com.bank.reckoning.dto.UserViewDto;
+import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
 
 /**
  * Mapper of account entity.
  */
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface AccountMapper {
 
+    @Mapping(target = "userId", ignore = true)
     AccountViewDto map(Account account);
 
     Account map(AccountCreateDto accountCreateDto);

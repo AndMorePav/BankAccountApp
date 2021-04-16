@@ -1,11 +1,9 @@
 package com.bank.reckoning.domain;
 
-import org.springframework.security.core.GrantedAuthority;
-
 /**
  * Enumeration of user roles.
  */
-public enum Role implements GrantedAuthority {
+public enum Role {
 
     /**
      * Admin.
@@ -15,10 +13,5 @@ public enum Role implements GrantedAuthority {
     /**
      * User.
      */
-    ROLE_USER;
-
-    @Override
-    public String getAuthority() {
-        return name();
-    }
+    ROLE_USER
 }

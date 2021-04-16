@@ -4,10 +4,6 @@ spring:
     url: jdbc:postgresql://localhost:5432/testdb
     username: postgres
     password: postgrespass
-
-  security:
-    enabled: false
-
   servlet:
     multipart:
       max-file-size: 50MB
@@ -19,9 +15,6 @@ spring:
         use_sql_comments: true
         format_sql: true
         enable_lazy_load_no_trans: true
-token:
-  secret: IUJSJWMveG5bdjNBdjk7cg==
-  expiration: 600000
 logging:
   level:
     org:
