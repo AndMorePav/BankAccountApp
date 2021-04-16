@@ -6,6 +6,7 @@ spring:
     password: postgrespass
 
   security:
+    enabled: false
 
   servlet:
     multipart:
@@ -21,8 +22,6 @@ spring:
 token:
   secret: IUJSJWMveG5bdjNBdjk7cg==
   expiration: 600000
-#activating:
-#  uri: http://localhost:8080/verification/email/check-email-code/
 logging:
   level:
     org:

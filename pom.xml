@@ -8,6 +8,7 @@
 		<version>2.4.6-SNAPSHOT</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+
 	<groupId>com.bank</groupId>
 	<artifactId>reckoning</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -16,6 +17,7 @@
 	<properties>
 		<java.version>11</java.version>
 		<testcontainers.version>1.15.2</testcontainers.version>
+		<org.mapstruct.version>1.4.1.Final</org.mapstruct.version>
 	</properties>
 	<dependencies>
 		<dependency>
