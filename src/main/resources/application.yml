@@ -1,0 +1,8 @@
+spring:
+  flyway:
+    ignore-missing-migrations: true
+  mvc:
+    contentnegotiation:
+      favor-path-extension: true
+  profiles:
+    active: local
