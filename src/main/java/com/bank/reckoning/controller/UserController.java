@@ -52,36 +52,15 @@ public class UserController {
         return ResponseEntity.ok(userService.getProfile(id));
     }
 
-
+    /**
+     * Method for getting user profile by id.
+     *
+     * @return list of DTOs of users profiles
+     */
     @GetMapping
     @ApiOperation("Метод для получения всех пользователей")
     public ResponseEntity<List<UserViewDto>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
-    /**
-     * Method for blocking user by id.
-     *
-     * @param id user ID
-     */
-    @PostMapping("/block-user")
-    @ApiOperation("Метод для блокировки пользователя.")
-    public ResponseEntity<Void> blockUser(@RequestBody Long id) {
-        userService.blockUser(id);
-
-        return ResponseEntity.ok().build();
-    }
-
-    /**
-     * Method for unblocking user by id.
-     *
-     * @param id user ID
-     */
-    @PostMapping("/unblock-user")
-    @ApiOperation("Метод для разблокировки пользователя.")
-    public ResponseEntity<Void> unBlockUser(@RequestBody Long id) {
-        userService.unblockUser(id);
-
-        return ResponseEntity.ok().build();
-    }
 }

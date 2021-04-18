@@ -51,16 +51,4 @@ public class UserServiceImpl implements UserService {
     public List<UserViewDto> getAllUsers() {
         return userMapper.map(userRepository.findAll());
     }
-
-    @Transactional
-    @Override
-    public void blockUser(Long id) {
-
-    }
-
-    @Transactional
-    @Override
-    public void unblockUser(Long id) {
-
-    }
 }

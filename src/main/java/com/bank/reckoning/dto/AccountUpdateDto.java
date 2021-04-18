@@ -6,12 +6,16 @@ import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
 
+import javax.validation.constraints.NotBlank;
+
 @Value
 @AllArgsConstructor
 @Builder(setterPrefix = "with")
-@JsonDeserialize(builder = AccountCreateDto.AccountCreateDtoBuilder.class)
-public class AccountCreateDto {
+@JsonDeserialize(builder = AccountUpdateDto.AccountUpdateDtoBuilder.class)
+public class AccountUpdateDto {
 
     @NonNull
-    Long userId;
+    Long accountId;
+    @NotBlank
+    String amount;
 }

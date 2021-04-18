@@ -17,5 +17,5 @@ public class UserViewDto {
     String firstName;
     String lastName;
     String username;
-    List<String> accounts;
+    List<AccountViewDto> accounts;
 }

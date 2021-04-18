@@ -10,6 +10,7 @@ import com.bank.reckoning.dto.UserViewDto;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 
 import java.util.List;
 
@@ -19,10 +20,13 @@ import java.util.List;
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface AccountMapper {
 
-    @Mapping(target = "userId", ignore = true)
+    @Mapping(target = "userId", source = "account.user", qualifiedByName = "userToUserId")
     AccountViewDto map(Account account);
 
-    Account map(AccountCreateDto accountCreateDto);
-
     List<AccountViewDto> map(List<Account> account);
+
+    @Named("userToUserId")
+    static Long userToUserId(User user) {
+        return user.getId();
+    }
 }
