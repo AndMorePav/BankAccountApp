@@ -41,13 +41,15 @@ public interface AccountService {
      * Method for blocking accounts by id.
      *
      * @param id account id.
+     * @return account view dto
      */
-    void blockAccount(Long id);
+    Optional<AccountViewDto> blockAccount(Long id);
 
     /**
      * Method for unblocking accounts by id.
      *
      * @param id account id.
+     * @return account view dto
      */
-    void unblockAccount(Long id);
+    Optional<AccountViewDto> unblockAccount(Long id);
 }

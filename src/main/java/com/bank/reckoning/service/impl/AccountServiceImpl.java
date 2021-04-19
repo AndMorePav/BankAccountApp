@@ -88,13 +88,17 @@ public class AccountServiceImpl implements AccountService {
 
     @Transactional
     @Override
-    public void blockAccount(Long id) {
-        accountRepository.findById(id).map(account -> account.setEnabled(false)).map(accountRepository::save).orElseThrow(UnknownError::new);
+    public Optional<AccountViewDto> blockAccount(Long id) {
+        return accountRepository.findById(id).map(account -> account.setEnabled(false))
+                .map(accountRepository::save)
+                .map(accountMapper::map);
     }
 
     @Transactional
     @Override
-    public void unblockAccount(Long id) {
-        accountRepository.findById(id).map(account -> account.setEnabled(true)).map(accountRepository::save);
+    public Optional<AccountViewDto> unblockAccount(Long id) {
+        return accountRepository.findById(id).map(account -> account.setEnabled(true))
+                .map(accountRepository::save)
+                .map(accountMapper::map);
     }
 }

@@ -70,25 +70,28 @@ public class AccountController {
      * Method for blocking account by id.
      *
      * @param id account id
+     * @return account view dto
      */
     @PostMapping("/block")
     @ApiOperation("Метод для блокировки счета.")
-    public ResponseEntity<Void> blockUser(@RequestBody Long id) {
-        accountService.blockAccount(id);
-
-        return ResponseEntity.ok().build();
+    public ResponseEntity<AccountViewDto> blockUser(@RequestBody Long id) {
+        return accountService.blockAccount(id).map(accountViewDto -> ResponseEntity.status(HttpStatus.CREATED)
+                .body(accountViewDto))
+                .orElse(ResponseEntity.badRequest().build());
     }
 
     /**
      * Method for unblocking account by id.
      *
      * @param id account id
+     * @return account view dto
      */
     @PostMapping("/unblock")
     @ApiOperation("Метод для разблокировки счета.")
-    public ResponseEntity<Void> unBlockUser(@RequestBody Long id) {
-        accountService.unblockAccount(id);
-
-        return ResponseEntity.ok().build();
+    public ResponseEntity<AccountViewDto>  unBlockUser(@RequestBody Long id) {
+        return accountService.unblockAccount(id)
+                .map(accountViewDto -> ResponseEntity.status(HttpStatus.CREATED)
+                .body(accountViewDto))
+                .orElse(ResponseEntity.badRequest().build());
     }
 }
