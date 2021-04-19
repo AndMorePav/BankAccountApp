@@ -8,6 +8,7 @@ import com.bank.reckoning.dto.AccountUpdateDto;
 import com.bank.reckoning.dto.AccountViewDto;
 import com.bank.reckoning.mapper.AccountMapper;
 import com.bank.reckoning.repository.AccountRepository;
+import com.bank.reckoning.repository.UserRepository;
 import com.bank.reckoning.service.AccountService;
 import com.bank.reckoning.service.JournalService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Implementation of service for working with accounts.
@@ -34,11 +36,17 @@ public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
     private final JournalService journalService;
     private final AccountMapper accountMapper;
+    private final UserRepository userRepository;
 
     @Transactional
     @Override
-    public boolean createAccount(AccountCreateDto accountCreateDto) {
-        return accountRepository.saveByUserId(accountCreateDto.getUserId()) > 0;
+    public Optional<AccountViewDto> createAccount(AccountCreateDto accountCreateDto) {
+        Account newAccount = new Account();
+
+        return  userRepository.findById(accountCreateDto.getUserId())
+                .map(newAccount::setUser)
+                .map(accountRepository::save)
+                .map(accountMapper::map);
     }
 
     @Transactional

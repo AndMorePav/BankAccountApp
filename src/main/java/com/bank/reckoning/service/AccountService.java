@@ -6,6 +6,7 @@ import com.bank.reckoning.dto.AccountUpdateDto;
 import com.bank.reckoning.dto.AccountViewDto;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Service interface for work with accounts.
@@ -18,7 +19,7 @@ public interface AccountService {
      * @param accountCreateDto DTO for creating new account.
      * @return boolean operation success
      */
-    boolean createAccount(AccountCreateDto accountCreateDto);
+    Optional<AccountViewDto> createAccount(AccountCreateDto accountCreateDto);
 
     /**
      * Method for updating account.

@@ -8,6 +8,7 @@ import com.bank.reckoning.service.AccountService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -31,11 +32,15 @@ public class AccountController {
      * Method for creating new user account.
      *
      * @param accountCreateDto for creating new user account
+     * @return account view dto
      */
     @PostMapping("/create")
     @ApiOperation("Метод для создания нового счета пользователя.")
-    public ResponseEntity<Void> createAccount(@Valid @RequestBody AccountCreateDto accountCreateDto) {
-        return accountService.createAccount(accountCreateDto) ? ResponseEntity.ok().build() : ResponseEntity.badRequest().build();
+    public ResponseEntity<AccountViewDto> createAccount(@Valid @RequestBody AccountCreateDto accountCreateDto) {
+        return accountService.createAccount(accountCreateDto)
+                .map(accountViewDto -> ResponseEntity.status(HttpStatus.CREATED)
+                        .body(accountViewDto))
+                .orElse(ResponseEntity.badRequest().build());
     }
 
     /**

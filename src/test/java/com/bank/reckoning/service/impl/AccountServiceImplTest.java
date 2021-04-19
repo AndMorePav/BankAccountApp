@@ -6,6 +6,7 @@ import com.bank.reckoning.domain.User;
 import com.bank.reckoning.dto.AccountUpdateDto;
 import com.bank.reckoning.mapper.AccountMapperImpl;
 import com.bank.reckoning.repository.AccountRepository;
+import com.bank.reckoning.repository.UserRepository;
 import com.bank.reckoning.service.AccountService;
 import com.bank.reckoning.service.JournalService;
 import org.junit.Before;
@@ -32,13 +33,15 @@ public class AccountServiceImplTest {
     private AccountRepository accountRepositoryMock;
     @Mock
     private JournalService journalServiceMock;
+    @Mock
+    private UserRepository userRepositoryMock;
     private AccountService accountService;
     private Account testAccount;
     private AccountUpdateDto testAccountUpdateDto;
 
     @Before
     public void setUp() {
-        accountService = new AccountServiceImpl(accountRepositoryMock, journalServiceMock, new AccountMapperImpl());
+        accountService = new AccountServiceImpl(accountRepositoryMock, journalServiceMock, new AccountMapperImpl(), userRepositoryMock);
 
         testAccount = new Account().setId(1L)
                 .setAmount(new BigDecimal(100))
