@@ -5,6 +5,8 @@ import com.bank.reckoning.domain.User;
 import com.bank.reckoning.dto.UserCreateDto;
 import com.bank.reckoning.dto.UserPatchDto;
 import com.bank.reckoning.dto.UserViewDto;
+import com.bank.reckoning.exception.NotFoundException;
+import com.bank.reckoning.exception.RepeatPasswordNotSameException;
 import com.bank.reckoning.mapper.UserMapper;
 import com.bank.reckoning.mapper.UserMapperImpl;
 import com.bank.reckoning.repository.UserRepository;
@@ -55,7 +57,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void createUser() {
+    public void whenCreateUser_ThenReturnUserViewDto() {
         when(userRepositoryMock.save(any(User.class))).thenReturn(testUser);
 
         UserViewDto resultUserDto = userService.createUser(getUserCreateDto());
@@ -64,8 +66,13 @@ public class UserServiceImplTest {
         assertEquals(userViewDto, resultUserDto);
     }
 
+    @Test(expected = RepeatPasswordNotSameException.class)
+    public void whenCreateUser_withNotSamePassword_ThenRepeatPasswordNotSameException() {
+        userService.createUser(getUserCreateDtoWithWrongPassword());
+    }
+
     @Test
-    public void updateUser() {
+    public void whenUpdateUser_ThenReturnUserViewDto() {
         when(userRepositoryMock.findById(anyLong())).thenReturn(Optional.of(testUser));
         when(userRepositoryMock.save(any(User.class))).thenReturn(testUser);
 
@@ -76,6 +83,25 @@ public class UserServiceImplTest {
         assertEquals(userViewDto, resultUserDto);
     }
 
+    @Test(expected = NotFoundException.class)
+    public void whenUpdateNotExistingUser_ThenNotFoundException() {
+        when(userRepositoryMock.findById(anyLong())).thenReturn(Optional.empty());
+
+        userService.updateUser(1L, getUserPatchDto());
+
+        verify(userRepositoryMock, times(1)).findById(anyLong());
+    }
+
+    @Test
+    public void whenGetProfile_ThenReturnUserViewDto() {
+        when(userRepositoryMock.findById(anyLong())).thenReturn(Optional.of(testUser));
+
+        UserViewDto resultUserDto = userService.getProfile(1L);
+
+        verify(userRepositoryMock, times(1)).findById(anyLong());
+        assertEquals(userViewDto, resultUserDto);
+    }
+
     private UserCreateDto getUserCreateDto() {
         return UserCreateDto.builder()
                 .withFirstName("testtest")
@@ -83,6 +109,16 @@ public class UserServiceImplTest {
                 .withUsername("testtest")
                 .withPassword("password")
                 .withRepeatPassword("password")
+                .build();
+    }
+
+    private UserCreateDto getUserCreateDtoWithWrongPassword() {
+        return UserCreateDto.builder()
+                .withFirstName("testtest")
+                .withLastName("testtest")
+                .withUsername("testtest")
+                .withPassword("password")
+                .withRepeatPassword("NotSamePassword")
                 .build();
     }
 
