@@ -3,7 +3,9 @@ package com.bank.reckoning.service.impl;
 import com.bank.reckoning.domain.Account;
 import com.bank.reckoning.domain.OperationType;
 import com.bank.reckoning.domain.User;
+import com.bank.reckoning.dto.AccountCreateDto;
 import com.bank.reckoning.dto.AccountUpdateDto;
+import com.bank.reckoning.dto.AccountViewDto;
 import com.bank.reckoning.mapper.AccountMapperImpl;
 import com.bank.reckoning.repository.AccountRepository;
 import com.bank.reckoning.repository.UserRepository;
@@ -19,6 +21,7 @@ import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Optional;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
@@ -38,6 +41,7 @@ public class AccountServiceImplTest {
     private AccountService accountService;
     private Account testAccount;
     private AccountUpdateDto testAccountUpdateDto;
+    private User testUser;
 
     @Before
     public void setUp() {
@@ -53,6 +57,26 @@ public class AccountServiceImplTest {
                 .withAccountId(1L)
                 .withAmount("1.0")
                 .build();
+
+        testUser = new User()
+                .setId(1L)
+                .setFirstName("testtest")
+                .setLastName("testtest")
+                .setUsername("testtest")
+                .setAccounts(Collections.emptyList());
+    }
+
+
+    @Test
+    public void whenCreateAccount_thenReturnAccountViewDto() {
+        when(userRepositoryMock.findById(anyLong())).thenReturn(Optional.of(testUser));
+        when(accountRepositoryMock.save(any(Account.class))).thenReturn(testAccount);
+
+        Optional<AccountViewDto> resultAccountViewDto = accountService.createAccount(getAccountCreateDto());
+
+        verify(userRepositoryMock, times(1)).findById(anyLong());
+        verify(accountRepositoryMock, times(1)).save(any(Account.class));
+        assertEquals(Optional.of(getAccountViewDto()), resultAccountViewDto);
     }
 
     @Test
@@ -84,5 +108,19 @@ public class AccountServiceImplTest {
 
         verify(accountRepositoryMock, times(1)).findById(anyLong());
         verify(accountRepositoryMock, times(1)).save(any(Account.class));
+    }
+
+    private AccountViewDto getAccountViewDto() {
+        return AccountViewDto.builder()
+                .withId(1L)
+                .withAmount("100")
+                .withEnabled("true")
+                .build();
+    }
+
+    private AccountCreateDto getAccountCreateDto() {
+        return AccountCreateDto.builder()
+                .withUserId(1L)
+                .build();
     }
 }

@@ -2,17 +2,22 @@ package com.bank.reckoning.integration;
 
 import com.bank.reckoning.controller.AccountController;
 import com.bank.reckoning.integration.initializer.ContainerDB;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import com.bank.reckoning.integration.initializer.TestPostgresContainer;
+import org.junit.ClassRule;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.util.TestPropertyValues;
+import org.springframework.context.ApplicationContextInitializer;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import javax.annotation.Resource;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -21,8 +26,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SqlGroup({
-        @Sql(scripts = "/db/sql/usersInsert.sql"),
-        @Sql(scripts = "/db/sql/accountsInsert.sql"),
+        @Sql("/db/sql/usersInsert.sql"),
+        @Sql("/db/sql/accountsInsert.sql"),
         @Sql(scripts = "/db/sql/cleanDB.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 })
 @AutoConfigureMockMvc
@@ -64,10 +69,6 @@ class AccountControllerIntegrationTest extends ContainerDB {
 
 
         latch.await();
-    }
-
-    @AfterEach
-    void tearDown() {
-//        executorService.shutdown();
+                executorService.shutdown();
     }
 }
