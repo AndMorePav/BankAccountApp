@@ -62,5 +62,4 @@ public class UserController {
     public ResponseEntity<List<UserViewDto>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
-
 }

@@ -13,6 +13,6 @@ public class AccountViewDto {
 
     Long id;
     Long userId;
-    String amount ;
+    String amount;
     String enabled;
 }

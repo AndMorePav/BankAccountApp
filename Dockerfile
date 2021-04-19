@@ -1,8 +1,10 @@
-FROM openjdk:11-jre
+FROM maven:3.6.0-jdk-8-slim
 MAINTAINER Morozov Andrey
 
-ADD ./target/reckoning.jar /app/
-RUN mkdir /app/images
-CMD ["java", "-Xms200m", "-Xmx500m", "-jar", "/app/reckoning.jar"]
+COPY ./ ./
+
+RUN mvn clean compile package
+
+CMD ["java", "-Xms200m", "-Xmx500m", "-jar", "target/reckoning-0.0.1-SNAPSHOT.jar"]
 
 EXPOSE 6000

@@ -3,10 +3,7 @@ package com.bank.reckoning.mapper;
 
 import com.bank.reckoning.domain.Account;
 import com.bank.reckoning.domain.Journal;
-import com.bank.reckoning.domain.User;
 import com.bank.reckoning.dto.JournalViewDto;
-import com.bank.reckoning.dto.UserCreateDto;
-import com.bank.reckoning.dto.UserViewDto;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -28,7 +25,7 @@ public interface JournalMapper {
 
     @Named("accountToAccountId")
     default Long accountsToStringAccounts(Account account) {
-        if(Objects.nonNull(account.getId()))
+        if (Objects.nonNull(account.getId()))
             return account.getId();
         else return null;
     }

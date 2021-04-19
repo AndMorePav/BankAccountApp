@@ -1,6 +1,5 @@
 package com.bank.reckoning.controller;
 
-import com.bank.reckoning.dto.AccountViewDto;
 import com.bank.reckoning.dto.JournalViewDto;
 import com.bank.reckoning.service.JournalService;
 import io.swagger.annotations.Api;
@@ -35,7 +34,7 @@ public class JournalController {
      */
     @GetMapping("/{accountId}")
     @ApiOperation("Метод получения всех операций по счету.")
-    public ResponseEntity<List<JournalViewDto>> getALlAccountsByUserId(@PathVariable Long accountId){
+    public ResponseEntity<List<JournalViewDto>> getALlAccountsByUserId(@PathVariable Long accountId) {
         return ResponseEntity.ok(journalService.getAccountOperations(accountId));
     }
 }

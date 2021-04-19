@@ -25,7 +25,7 @@ public class Account {
     private Long id;
 
     @Column(name = "amount")
-    private BigDecimal amount ;
+    private BigDecimal amount;
 
     @Column(name = "enabled")
     private boolean enabled;

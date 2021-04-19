@@ -3,10 +3,7 @@ package com.bank.reckoning.mapper;
 
 import com.bank.reckoning.domain.Account;
 import com.bank.reckoning.domain.User;
-import com.bank.reckoning.dto.AccountCreateDto;
 import com.bank.reckoning.dto.AccountViewDto;
-import com.bank.reckoning.dto.UserCreateDto;
-import com.bank.reckoning.dto.UserViewDto;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

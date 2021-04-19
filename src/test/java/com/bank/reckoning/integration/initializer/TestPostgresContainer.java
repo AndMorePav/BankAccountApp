@@ -33,5 +33,4 @@ public class TestPostgresContainer extends PostgreSQLContainer<TestPostgresConta
     public void stop() {
         //do nothing, JVM handles shut down
     }
-
 }

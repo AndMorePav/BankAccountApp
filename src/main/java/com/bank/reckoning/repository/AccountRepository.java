@@ -20,7 +20,7 @@ public interface AccountRepository  extends JpaRepository<Account, Long> {
      */
     @Modifying
     @Query(value = "insert into accounts(user_id) values (:userId)", nativeQuery = true)
-    Integer saveByUserId (Long userId);
+    Integer saveByUserId(Long userId);
 
     /**
      * Method for finding accounts by user id

@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  * Class, where create containers for test.
  */
 @RunWith(SpringRunner.class)
-//@ActiveProfiles("test")
+@ActiveProfiles("test")
 @SpringBootTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @TestPropertySource(value = "classpath:application-test.yml")

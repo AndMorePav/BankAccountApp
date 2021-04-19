@@ -9,5 +9,4 @@ class ReckoningApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }

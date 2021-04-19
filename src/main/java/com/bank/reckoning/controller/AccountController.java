@@ -34,7 +34,7 @@ public class AccountController {
      */
     @PostMapping("/create")
     @ApiOperation("Метод для создания нового счета пользователя.")
-    public ResponseEntity<Void> createAccount(@Valid @RequestBody AccountCreateDto accountCreateDto){
+    public ResponseEntity<Void> createAccount(@Valid @RequestBody AccountCreateDto accountCreateDto) {
         return accountService.createAccount(accountCreateDto) ? ResponseEntity.ok().build() : ResponseEntity.badRequest().build();
     }
 
@@ -57,7 +57,7 @@ public class AccountController {
      */
     @GetMapping("/{userId}")
     @ApiOperation("Метод получения всех счетов пользователя.")
-    public ResponseEntity<List<AccountViewDto>> getALlAccountsByUserId(@PathVariable Long userId){
+    public ResponseEntity<List<AccountViewDto>> getALlAccountsByUserId(@PathVariable Long userId) {
         return ResponseEntity.ok(accountService.getAllByUserId(userId));
     }
 

@@ -4,8 +4,6 @@ import com.bank.reckoning.domain.Account;
 import com.bank.reckoning.domain.OperationType;
 import com.bank.reckoning.domain.User;
 import com.bank.reckoning.dto.AccountUpdateDto;
-import com.bank.reckoning.dto.AccountViewDto;
-import com.bank.reckoning.mapper.AccountMapper;
 import com.bank.reckoning.mapper.AccountMapperImpl;
 import com.bank.reckoning.repository.AccountRepository;
 import com.bank.reckoning.service.AccountService;
@@ -13,7 +11,6 @@ import com.bank.reckoning.service.JournalService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
@@ -21,7 +18,6 @@ import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
