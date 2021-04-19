@@ -56,7 +56,16 @@ public class AccountServiceImplTest {
     }
 
     @Test
-    public void whenUpdateAccount_ReplenishmentOperation_thenReturnAccountViewDto() {
+    public void whenUpdateAccount_accountNotEnabled_thenNotSave() {
+        when(accountRepositoryMock.findById(anyLong())).thenReturn(Optional.of(testAccount.setEnabled(false)));
+
+        accountService.updateAccount(OperationType.REPLENISHMENT, testAccountUpdateDto);
+
+        verify(accountRepositoryMock, times(1)).findById(anyLong());
+    }
+
+    @Test
+    public void whenUpdateAccount_ReplenishmentOperation_thenSave() {
         when(accountRepositoryMock.findById(anyLong())).thenReturn(Optional.of(testAccount));
         when(accountRepositoryMock.save(any(Account.class))).thenReturn(testAccount);
 
@@ -67,7 +76,7 @@ public class AccountServiceImplTest {
     }
 
     @Test
-    public void whenUpdateAccount_WithdrawalOperation_thenReturnAccountViewDto() {
+    public void whenUpdateAccount_WithdrawalOperation_thenSave() {
         when(accountRepositoryMock.findById(anyLong())).thenReturn(Optional.of(testAccount));
         when(accountRepositoryMock.save(any(Account.class))).thenReturn(testAccount);
 
