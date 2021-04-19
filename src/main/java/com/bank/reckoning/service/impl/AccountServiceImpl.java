@@ -41,7 +41,7 @@ public class AccountServiceImpl implements AccountService {
     @Transactional
     @Override
     public Optional<AccountViewDto> createAccount(AccountCreateDto accountCreateDto) {
-        Account newAccount = new Account();
+        Account newAccount = new Account().setEnabled(true).setAmount(new BigDecimal(0));
 
         return  userRepository.findById(accountCreateDto.getUserId())
                 .map(newAccount::setUser)
