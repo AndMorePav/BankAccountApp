@@ -45,7 +45,7 @@ public class User {
     private Role role;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
-    @BatchSize(size=10)
+    @BatchSize(size = 10)
     @EqualsAndHashCode.Exclude
     private List<Account> accounts;
 }

@@ -5,6 +5,7 @@ import com.bank.reckoning.domain.User;
 import com.bank.reckoning.dto.UserCreateDto;
 import com.bank.reckoning.dto.UserViewDto;
 import com.bank.reckoning.exception.NotFoundException;
+import com.bank.reckoning.exception.RepeatPasswordNotSameException;
 import com.bank.reckoning.mapper.UserMapper;
 import com.bank.reckoning.repository.UserRepository;
 import com.bank.reckoning.service.UserService;
@@ -30,6 +31,11 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public UserViewDto createUser(UserCreateDto userDto) {
+        if (!userDto.getPassword().equals(userDto.getRepeatPassword())) {
+            log.error("User enter not correct");
+            throw new RepeatPasswordNotSameException("Not same", "repeatPassword");
+        }
+
         User user = userMapper.map(userDto);
         user.setRole(Role.ROLE_USER)
                 .setEnabled(true);

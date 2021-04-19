@@ -36,7 +36,7 @@ public class Account {
     private User user;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "account",  cascade = CascadeType.ALL)
-    @BatchSize(size=100)
+    @BatchSize(size = 100)
     @EqualsAndHashCode.Exclude
     private List<Journal> accountJournals;
 }
