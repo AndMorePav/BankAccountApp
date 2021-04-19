@@ -3,10 +3,9 @@ package com.bank.reckoning.mapper;
 
 import com.bank.reckoning.domain.User;
 import com.bank.reckoning.dto.UserCreateDto;
+import com.bank.reckoning.dto.UserPatchDto;
 import com.bank.reckoning.dto.UserViewDto;
-import org.mapstruct.InjectionStrategy;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.mapstruct.*;
 
 import java.util.List;
 
@@ -21,6 +20,9 @@ public interface UserMapper {
 
     @Mapping(target = "accounts", source = "user.accounts")
     UserViewDto map(User user);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    User updateUser(UserPatchDto userPatchDto, @MappingTarget User user);
 
     List<UserViewDto> map(List<User> users);
 }

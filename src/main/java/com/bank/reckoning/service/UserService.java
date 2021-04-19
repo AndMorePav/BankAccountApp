@@ -1,6 +1,7 @@
 package com.bank.reckoning.service;
 
 import com.bank.reckoning.dto.UserCreateDto;
+import com.bank.reckoning.dto.UserPatchDto;
 import com.bank.reckoning.dto.UserViewDto;
 
 import java.util.List;
@@ -32,4 +33,13 @@ public interface UserService {
      * @return list of users view DTO
      */
     List<UserViewDto> getAllUsers();
+
+    /**
+     * Method for updating user profile by id.
+     *
+     * @param id user ID
+     * @param userPatchDto dto fot updating user
+     * @return user view DTO
+     */
+    UserViewDto updateUser(Long id, UserPatchDto userPatchDto);
 }

@@ -3,6 +3,7 @@ package com.bank.reckoning.service.impl;
 import com.bank.reckoning.domain.Role;
 import com.bank.reckoning.domain.User;
 import com.bank.reckoning.dto.UserCreateDto;
+import com.bank.reckoning.dto.UserPatchDto;
 import com.bank.reckoning.dto.UserViewDto;
 import com.bank.reckoning.exception.NotFoundException;
 import com.bank.reckoning.exception.RepeatPasswordNotSameException;
@@ -42,6 +43,19 @@ public class UserServiceImpl implements UserService {
         log.info("User has been created");
         User savedUser = userRepository.save(user);
         return userMapper.map(savedUser);
+    }
+
+    @Transactional
+    @Override
+    public UserViewDto updateUser(Long id, UserPatchDto userPatchDto) {
+        User user = userRepository.findById(id).map(u -> userMapper.updateUser(userPatchDto, u))
+                .orElseThrow(() -> {
+                    log.error("User has not been found with id : " + id);
+                    return new NotFoundException("USER_ID_NOT_FOUND", "id");
+                });
+        User updatedUser = userRepository.save(user);
+        log.info("User has been updated with id : " + id);
+        return userMapper.map(updatedUser);
     }
 
     @Override

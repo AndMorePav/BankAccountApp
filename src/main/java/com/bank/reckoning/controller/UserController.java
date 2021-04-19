@@ -1,6 +1,7 @@
 package com.bank.reckoning.controller;
 
 import com.bank.reckoning.dto.UserCreateDto;
+import com.bank.reckoning.dto.UserPatchDto;
 import com.bank.reckoning.dto.UserViewDto;
 import com.bank.reckoning.service.UserService;
 import io.swagger.annotations.Api;
@@ -38,6 +39,19 @@ public class UserController {
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(userService.createUser(userCreateDto));
+    }
+
+    /**
+     * Method for updating existing user.
+     *
+     * @param id           user ID
+     * @param userPatchDto DTO for updating user
+     * @return DTO of updating user profile
+     */
+    @ApiOperation("Метод для обновления данных существующего пользователя.")
+    @PatchMapping("/update/{id}")
+    public ResponseEntity<UserViewDto> update(@PathVariable Long id, @RequestBody UserPatchDto userPatchDto) {
+        return ResponseEntity.ok(userService.updateUser(id, userPatchDto));
     }
 
     /**

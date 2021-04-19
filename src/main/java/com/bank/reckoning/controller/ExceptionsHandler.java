@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
  * Exceptions handler.
  */
 @ControllerAdvice
-public class ExceptionController {
+public class ExceptionsHandler {
 
     /**
-     * Method for creating new user account.
+     * Method for handling repeatPasswordNotSameException
      *
      * @param repeatPasswordNotSameException for work with exception
      * @return response object
