@@ -23,11 +23,11 @@ public interface AccountService {
 
     /**
      * Method for updating account.
-     *
-     * @param operationType    type of operation.
+     *  @param operationType    type of operation.
      * @param accountUpdateDto DTO for updating account.
+     * @return account view dto
      */
-    void updateAccount(OperationType operationType, AccountUpdateDto accountUpdateDto);
+    Optional<AccountViewDto> updateAccount(OperationType operationType, AccountUpdateDto accountUpdateDto);
 
     /**
      * Method for getting accounts by user id.

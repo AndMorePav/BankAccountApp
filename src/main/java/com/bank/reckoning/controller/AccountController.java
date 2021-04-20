@@ -50,9 +50,11 @@ public class AccountController {
      */
     @PostMapping("/update")
     @ApiOperation("Метод для операций по счету пользователя.")
-    public ResponseEntity<Void> updateAccount(@RequestParam OperationType operationType, @Valid @RequestBody AccountUpdateDto accountUpdateDto) {
-        accountService.updateAccount(operationType, accountUpdateDto);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<AccountViewDto> updateAccount(@RequestParam OperationType operationType, @Valid @RequestBody AccountUpdateDto accountUpdateDto) {
+        return accountService.updateAccount(operationType, accountUpdateDto)
+                .map(accountViewDto -> ResponseEntity.status(HttpStatus.CREATED)
+                .body(accountViewDto))
+                .orElse(ResponseEntity.badRequest().build());
     }
 
     /**

@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
@@ -93,10 +94,12 @@ public class AccountServiceImplTest {
         when(accountRepositoryMock.findById(anyLong())).thenReturn(Optional.of(testAccount));
         when(accountRepositoryMock.save(any(Account.class))).thenReturn(testAccount);
 
-        accountService.updateAccount(OperationType.REPLENISHMENT, testAccountUpdateDto);
+        Optional<AccountViewDto> accountViewDto = accountService.updateAccount(OperationType.REPLENISHMENT, testAccountUpdateDto);
 
         verify(accountRepositoryMock, times(1)).findById(anyLong());
         verify(accountRepositoryMock, times(1)).save(any(Account.class));
+        assertTrue(accountViewDto.isPresent());
+        assertEquals("101.00",accountViewDto.get().getAmount());
     }
 
     @Test
@@ -104,10 +107,12 @@ public class AccountServiceImplTest {
         when(accountRepositoryMock.findById(anyLong())).thenReturn(Optional.of(testAccount));
         when(accountRepositoryMock.save(any(Account.class))).thenReturn(testAccount);
 
-        accountService.updateAccount(OperationType.WITHDRAWAL, testAccountUpdateDto);
+        Optional<AccountViewDto> accountViewDto = accountService.updateAccount(OperationType.WITHDRAWAL, testAccountUpdateDto);
 
         verify(accountRepositoryMock, times(1)).findById(anyLong());
         verify(accountRepositoryMock, times(1)).save(any(Account.class));
+        assertTrue(accountViewDto.isPresent());
+        assertEquals("99.00",accountViewDto.get().getAmount());
     }
 
     private AccountViewDto getAccountViewDto() {

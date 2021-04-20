@@ -13,7 +13,6 @@ import com.bank.reckoning.service.AccountService;
 import com.bank.reckoning.service.JournalService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,13 +49,12 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Transactional
-    @Async
     @Override
-    public void updateAccount(OperationType operationType, AccountUpdateDto accountUpdateDto) {
+    public Optional<AccountViewDto> updateAccount(OperationType operationType, AccountUpdateDto accountUpdateDto) {
         Account account = accountRepository.findById(accountUpdateDto.getAccountId()).orElseThrow(NotFoundException::new);
 
         if (!account.isEnabled())
-            return;
+            return Optional.empty();
 
         BigDecimal amountOfUser = account.getAmount();
         BigDecimal amountOfOperation = new BigDecimal(accountUpdateDto.getAmount());
@@ -79,6 +77,8 @@ public class AccountServiceImpl implements AccountService {
                 .setOperationTime(LocalDateTime.now());
 
         journalService.addOperationToJournal(journal);
+
+        return Optional.of(accountMapper.map(savedAccount));
     }
 
     @Override
