@@ -44,8 +44,8 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private Role role;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
-    @BatchSize(size = 10)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @Fetch(FetchMode.SUBSELECT)
     @EqualsAndHashCode.Exclude
     private List<Account> accounts;
 }

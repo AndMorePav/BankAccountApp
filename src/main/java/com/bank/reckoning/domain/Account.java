@@ -4,7 +4,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -35,8 +36,8 @@ public class Account {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "account",  cascade = CascadeType.ALL)
-    @BatchSize(size = 100)
+    @OneToMany(mappedBy = "account",  cascade = CascadeType.ALL)
+    @Fetch(FetchMode.SUBSELECT)
     @EqualsAndHashCode.Exclude
     private List<Journal> accountJournals;
 }
