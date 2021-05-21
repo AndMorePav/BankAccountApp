@@ -1,6 +1,6 @@
 package com.bank.reckoning.service.impl;
 
-import com.bank.reckoning.domain.Role;
+import com.bank.reckoning.domain.Status;
 import com.bank.reckoning.domain.User;
 import com.bank.reckoning.dto.UserCreateDto;
 import com.bank.reckoning.dto.UserPatchDto;
@@ -9,9 +9,11 @@ import com.bank.reckoning.exception.NotFoundException;
 import com.bank.reckoning.exception.RepeatPasswordNotSameException;
 import com.bank.reckoning.mapper.UserMapper;
 import com.bank.reckoning.repository.UserRepository;
+import com.bank.reckoning.security.model.Role;
 import com.bank.reckoning.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +30,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     @Override
@@ -37,11 +40,16 @@ public class UserServiceImpl implements UserService {
             throw new RepeatPasswordNotSameException("Not same", "repeatPassword");
         }
 
+        String encode = passwordEncoder.encode(userDto.getPassword());
+
         User user = userMapper.map(userDto);
-        user.setRole(Role.ROLE_USER)
+        user.setRole(Role.USER)
+                .setPassword(encode)
+                .setStatus(Status.ACTIVE)
                 .setEnabled(true);
-        log.info("User has been created");
+
         User savedUser = userRepository.save(user);
+        log.info("User has been created");
         return userMapper.map(savedUser);
     }
 

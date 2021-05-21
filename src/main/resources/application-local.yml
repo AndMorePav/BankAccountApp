@@ -22,3 +22,8 @@ logging:
     org:
       hibernate:
         type: TRACE
+
+jwt:
+  header: Authorization
+  secret: reck
+  expiration: 900000000

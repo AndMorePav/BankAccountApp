@@ -16,6 +16,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Collections;
 import java.util.Optional;
@@ -32,13 +33,15 @@ public class UserServiceImplTest {
 
     @Mock
     private UserRepository userRepositoryMock;
+    @Mock
+    PasswordEncoder passwordEncoder;
     private UserService userService;
     private User testUser;
     private UserViewDto userViewDto;
 
     @Before
     public void setUp() {
-        userService = new UserServiceImpl(userRepositoryMock, new UserMapperImpl());
+        userService = new UserServiceImpl(userRepositoryMock, new UserMapperImpl(), passwordEncoder);
 
         testUser = new User()
                 .setId(1L)

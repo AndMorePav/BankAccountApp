@@ -1,0 +1,27 @@
+package com.bank.reckoning.security.model;
+
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+public enum  Role {
+    ADMIN(List.of(Permission.READ_BALANCE, Permission.MANAGE_USERS)),
+    USER(List.of(Permission.READ_BALANCE, Permission.CHANGE_BALANCE));
+
+    List<Permission> permissions;
+
+    Role(List<Permission> permissions) {
+        this.permissions = permissions;
+    }
+
+    public List<Permission> getPermissions() {
+        return permissions;
+    }
+
+    public List<SimpleGrantedAuthority> getAuthorities(){
+        return getPermissions().stream()
+                .map(permission -> new SimpleGrantedAuthority(permission.getPermission()))
+                .collect(Collectors.toList());
+    }
+}
