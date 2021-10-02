@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiKey;
 import springfox.documentation.service.AuthorizationScope;
@@ -31,12 +30,6 @@ public class SwaggerConfig {
 
     @Bean
     public Docket api() {
-//        return new Docket(DocumentationType.SWAGGER_2)
-//                .select()
-//                .apis(RequestHandlerSelectors.basePackage("com.bank.reckoning.controller"))
-//                .paths(PathSelectors.ant("/**"))
-//                .build();
-
         return new Docket(DocumentationType.SWAGGER_2)
                 .host(swaggerConfigProperties.getHost())
                 .securityContexts(Collections.singletonList(securityContext()))
@@ -49,7 +42,7 @@ public class SwaggerConfig {
     private SecurityContext securityContext() {
         return SecurityContext.builder()
                 .securityReferences(defaultAuth())
-                .forPaths(PathSelectors.regex("/*.*"))
+                .operationSelector(o -> o.requestMappingPattern().matches("/*.*"))
                 .build();
     }
 

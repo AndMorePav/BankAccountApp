@@ -1,15 +1,13 @@
 package com.bank.reckoning.config.properties;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * Configuration options of Swagger.
  */
 @ConfigurationProperties("swagger")
-@Getter
-@Setter
+@Data
 public class SwaggerConfigProperties {
 
     private String host;
