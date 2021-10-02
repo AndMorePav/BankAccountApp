@@ -1,10 +1,8 @@
 package com.bank.reckoning.config;
 
-import com.bank.reckoning.config.properties.SwaggerConfigProperties;
-import lombok.RequiredArgsConstructor;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiKey;
 import springfox.documentation.service.AuthorizationScope;
@@ -22,20 +20,16 @@ import java.util.List;
  */
 @Configuration
 @EnableSwagger2
-@EnableConfigurationProperties(SwaggerConfigProperties.class)
-@RequiredArgsConstructor
 public class SwaggerConfig {
-
-    private final SwaggerConfigProperties swaggerConfigProperties;
 
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .host(swaggerConfigProperties.getHost())
                 .securityContexts(Collections.singletonList(securityContext()))
                 .securitySchemes(Collections.singletonList(apiKey()))
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.bank.reckoning.controller"))
+                .paths(PathSelectors.any())
                 .build();
     }
 
@@ -47,6 +41,7 @@ public class SwaggerConfig {
     }
 
     private List<SecurityReference> defaultAuth() {
+
         SecurityReference securityReference = new SecurityReference("JWT", new AuthorizationScope[]{
                 new AuthorizationScope("global", "accessEverything")
         });
