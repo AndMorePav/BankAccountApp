@@ -1,6 +1,7 @@
 package com.bank.reckoning.controller;
 
 import com.bank.reckoning.domain.OperationType;
+import com.bank.reckoning.domain.enums.BlockingOperation;
 import com.bank.reckoning.dto.AccountCreateDto;
 import com.bank.reckoning.dto.AccountUpdateDto;
 import com.bank.reckoning.dto.AccountViewDto;
@@ -8,7 +9,6 @@ import com.bank.reckoning.service.AccountService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -37,10 +37,7 @@ public class AccountController {
     @PostMapping("/create")
     @ApiOperation("Метод для создания нового счета пользователя.")
     public ResponseEntity<AccountViewDto> createAccount(@Valid @RequestBody AccountCreateDto accountCreateDto) {
-        return accountService.createAccount(accountCreateDto)
-                .map(accountViewDto -> ResponseEntity.status(HttpStatus.CREATED)
-                        .body(accountViewDto))
-                .orElse(ResponseEntity.badRequest().build());
+        return ResponseEntity.ok(accountService.createAccount(accountCreateDto));
     }
 
     /**
@@ -51,10 +48,7 @@ public class AccountController {
     @PostMapping("/update")
     @ApiOperation("Метод для операций по счету пользователя.")
     public ResponseEntity<AccountViewDto> updateAccount(@RequestParam OperationType operationType, @Valid @RequestBody AccountUpdateDto accountUpdateDto) {
-        return accountService.updateAccount(operationType, accountUpdateDto)
-                .map(accountViewDto -> ResponseEntity.status(HttpStatus.CREATED)
-                .body(accountViewDto))
-                .orElse(ResponseEntity.badRequest().build());
+        return ResponseEntity.ok(accountService.updateAccount(operationType, accountUpdateDto));
     }
 
     /**
@@ -76,24 +70,7 @@ public class AccountController {
      */
     @PostMapping("/block")
     @ApiOperation("Метод для блокировки счета.")
-    public ResponseEntity<AccountViewDto> blockUser(@RequestBody Long id) {
-        return accountService.blockAccount(id).map(accountViewDto -> ResponseEntity.status(HttpStatus.CREATED)
-                .body(accountViewDto))
-                .orElse(ResponseEntity.badRequest().build());
-    }
-
-    /**
-     * Method for unblocking account by id.
-     *
-     * @param id account id
-     * @return account view dto
-     */
-    @PostMapping("/unblock")
-    @ApiOperation("Метод для разблокировки счета.")
-    public ResponseEntity<AccountViewDto>  unBlockUser(@RequestBody Long id) {
-        return accountService.unblockAccount(id)
-                .map(accountViewDto -> ResponseEntity.status(HttpStatus.CREATED)
-                .body(accountViewDto))
-                .orElse(ResponseEntity.badRequest().build());
+    public ResponseEntity<AccountViewDto> blockUser(@RequestBody Long id, @RequestParam BlockingOperation blockingOperation) {
+        return ResponseEntity.ok(accountService.blockingOperations(id, blockingOperation));
     }
 }

@@ -3,6 +3,7 @@ package com.bank.reckoning.service.impl;
 import com.bank.reckoning.domain.Account;
 import com.bank.reckoning.domain.Journal;
 import com.bank.reckoning.domain.OperationType;
+import com.bank.reckoning.domain.enums.BlockingOperation;
 import com.bank.reckoning.dto.AccountCreateDto;
 import com.bank.reckoning.dto.AccountUpdateDto;
 import com.bank.reckoning.dto.AccountViewDto;
@@ -21,7 +22,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Implementation of service for working with accounts.
@@ -39,22 +39,28 @@ public class AccountServiceImpl implements AccountService {
 
     @Transactional
     @Override
-    public Optional<AccountViewDto> createAccount(AccountCreateDto accountCreateDto) {
+    public AccountViewDto createAccount(AccountCreateDto accountCreateDto) {
         Account newAccount = new Account().setEnabled(true).setAmount(new BigDecimal(0));
 
-        return  userRepository.findById(accountCreateDto.getUserId())
+        Account account = userRepository.findById(accountCreateDto.getUserId())
                 .map(newAccount::setUser)
-                .map(accountRepository::save)
-                .map(accountMapper::map);
+                .orElseThrow(NotFoundException::new);
+
+        log.info("Account of user {} created", account.getUser().getUsername());
+
+        return accountMapper.map(accountRepository.save(account));
     }
 
     @Transactional
     @Override
-    public Optional<AccountViewDto> updateAccount(OperationType operationType, AccountUpdateDto accountUpdateDto) {
+    public AccountViewDto updateAccount(OperationType operationType, AccountUpdateDto accountUpdateDto) {
         Account account = accountRepository.findById(accountUpdateDto.getAccountId()).orElseThrow(NotFoundException::new);
 
-        if (!account.isEnabled())
-            return Optional.empty();
+        if (!account.isEnabled()) {
+            log.info("Account {} blocked", account.getId());
+            //fixme create exception
+            throw new RuntimeException();
+        }
 
         BigDecimal amountOfUser = account.getAmount();
         BigDecimal amountOfOperation = new BigDecimal(accountUpdateDto.getAmount());
@@ -70,6 +76,8 @@ public class AccountServiceImpl implements AccountService {
 
         Account savedAccount = accountRepository.save(account);
 
+        log.debug("Account of user {} changed", account.getUser().getUsername());
+
         Journal journal = new Journal().setAccount(savedAccount)
                 .setInitialAmount(amountOfUser)
                 .setFinalAmount(result)
@@ -78,7 +86,7 @@ public class AccountServiceImpl implements AccountService {
 
         journalService.addOperationToJournal(journal);
 
-        return Optional.of(accountMapper.map(savedAccount));
+        return accountMapper.map(savedAccount);
     }
 
     @Override
@@ -88,17 +96,17 @@ public class AccountServiceImpl implements AccountService {
 
     @Transactional
     @Override
-    public Optional<AccountViewDto> blockAccount(Long id) {
-        return accountRepository.findById(id).map(account -> account.setEnabled(false))
-                .map(accountRepository::save)
-                .map(accountMapper::map);
+    public AccountViewDto blockingOperations(Long id, BlockingOperation blockingOperation) {
+        Account blockingAccount = accountRepository.findById(id)
+                .map(account -> getAccount(blockingOperation, account))
+                .orElseThrow(NotFoundException::new);
+
+        return accountMapper.map(accountRepository.save(blockingAccount));
     }
 
-    @Transactional
-    @Override
-    public Optional<AccountViewDto> unblockAccount(Long id) {
-        return accountRepository.findById(id).map(account -> account.setEnabled(true))
-                .map(accountRepository::save)
-                .map(accountMapper::map);
+    private Account getAccount(BlockingOperation blockingOperation, Account account) {
+        return BlockingOperation.BLOCK == blockingOperation
+                ? account.setEnabled(false)
+                : account.setEnabled(true);
     }
 }

@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserViewDto createUser(UserCreateDto userDto) {
         if (!userDto.getPassword().equals(userDto.getRepeatPassword())) {
-            log.error("User enter not correct");
+            log.error("Password enter not correct");
             throw new RepeatPasswordNotSameException("Not same", "repeatPassword");
         }
 
@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
                 .setEnabled(true);
 
         User savedUser = userRepository.save(user);
-        log.info("User has been created");
+        log.info("User {} has been created", savedUser.getUsername());
         return userMapper.map(savedUser);
     }
 
@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
     public UserViewDto updateUser(Long id, UserPatchDto userPatchDto) {
         User user = userRepository.findById(id).map(u -> userMapper.updateUser(userPatchDto, u))
                 .orElseThrow(() -> {
-                    log.error("User has not been found with id : " + id);
+                    log.error("User has not been found with id : {} ", id);
                     return new NotFoundException("USER_ID_NOT_FOUND", "id");
                 });
         User updatedUser = userRepository.save(user);
@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
     public UserViewDto getProfile(Long id) {
         return userMapper.map(userRepository.findById(id)
                 .orElseThrow(() -> {
-                    log.error("User has not been found with id : " + id);
+                    log.error("User has not been found with id : {} ", id);
                     return new NotFoundException("USER_ID_NOT_FOUND", "id");
                 }));
     }
