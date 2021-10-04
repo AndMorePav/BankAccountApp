@@ -30,7 +30,8 @@ public class JournalServiceImpl implements JournalService {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     @Override
     public void addOperationToJournal(Journal journalRecord) {
-        journalRepository.save(journalRecord);
+        Journal savedRecord = journalRepository.save(journalRecord);
+        log.info("Operation for account {} in {} time saved", savedRecord.getAccount(), savedRecord.getOperationTime().toString());
     }
 
     @Override

@@ -4,9 +4,9 @@ import com.bank.reckoning.domain.OperationType;
 import com.bank.reckoning.dto.AccountCreateDto;
 import com.bank.reckoning.dto.AccountUpdateDto;
 import com.bank.reckoning.dto.AccountViewDto;
+import com.bank.reckoning.domain.enums.BlockingOperation;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Service interface for work with accounts.
@@ -19,7 +19,7 @@ public interface AccountService {
      * @param accountCreateDto DTO for creating new account.
      * @return boolean operation success
      */
-    Optional<AccountViewDto> createAccount(AccountCreateDto accountCreateDto);
+    AccountViewDto createAccount(AccountCreateDto accountCreateDto);
 
     /**
      * Method for updating account.
@@ -27,7 +27,7 @@ public interface AccountService {
      * @param accountUpdateDto DTO for updating account.
      * @return account view dto
      */
-    Optional<AccountViewDto> updateAccount(OperationType operationType, AccountUpdateDto accountUpdateDto);
+    AccountViewDto updateAccount(OperationType operationType, AccountUpdateDto accountUpdateDto);
 
     /**
      * Method for getting accounts by user id.
@@ -38,18 +38,11 @@ public interface AccountService {
     List<AccountViewDto> getAllByUserId(Long userId);
 
     /**
-     * Method for blocking accounts by id.
+     * Method for blocking status of account by id.
      *
      * @param id account id.
+//     * @param operation
      * @return account view dto
      */
-    Optional<AccountViewDto> blockAccount(Long id);
-
-    /**
-     * Method for unblocking accounts by id.
-     *
-     * @param id account id.
-     * @return account view dto
-     */
-    Optional<AccountViewDto> unblockAccount(Long id);
+    AccountViewDto blockingOperations(Long id, BlockingOperation blockingOperation);
 }
