@@ -7,6 +7,7 @@ import com.bank.reckoning.domain.enums.BlockingOperation;
 import com.bank.reckoning.dto.AccountCreateDto;
 import com.bank.reckoning.dto.AccountUpdateDto;
 import com.bank.reckoning.dto.AccountViewDto;
+import com.bank.reckoning.exception.AccountNotEnableException;
 import com.bank.reckoning.mapper.AccountMapper;
 import com.bank.reckoning.repository.AccountRepository;
 import com.bank.reckoning.repository.UserRepository;
@@ -58,8 +59,7 @@ public class AccountServiceImpl implements AccountService {
 
         if (!account.isEnabled()) {
             log.info("Account {} blocked", account.getId());
-            //fixme create exception
-            throw new RuntimeException();
+            throw new AccountNotEnableException();
         }
 
         BigDecimal amountOfUser = account.getAmount();

@@ -6,6 +6,7 @@ import com.bank.reckoning.integration.initializer.ContainerDB;
 import com.bank.reckoning.integration.initializer.TestPostgresContainer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.ClassRule;
+import org.junit.Ignore;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -37,6 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         @Sql(scripts = "/db/sql/cleanDB.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 })
 @AutoConfigureMockMvc
+@Ignore
 class AccountControllerIntegrationTest extends ContainerDB {
 
     private static final String UPDATE_ACCOUNT_ENDPOINT = "/accounts/update";

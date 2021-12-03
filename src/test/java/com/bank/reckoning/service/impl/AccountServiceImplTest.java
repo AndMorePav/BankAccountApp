@@ -73,11 +73,11 @@ public class AccountServiceImplTest {
         when(userRepositoryMock.findById(anyLong())).thenReturn(Optional.of(testUser));
         when(accountRepositoryMock.save(any(Account.class))).thenReturn(testAccount);
 
-        Optional<AccountViewDto> resultAccountViewDto = accountService.createAccount(getAccountCreateDto());
+        AccountViewDto resultAccountViewDto = accountService.createAccount(getAccountCreateDto());
 
         verify(userRepositoryMock, times(1)).findById(anyLong());
         verify(accountRepositoryMock, times(1)).save(any(Account.class));
-        assertEquals(Optional.of(getAccountViewDto()), resultAccountViewDto);
+        assertEquals(getAccountViewDto(), resultAccountViewDto);
     }
 
     @Test
@@ -94,12 +94,11 @@ public class AccountServiceImplTest {
         when(accountRepositoryMock.findById(anyLong())).thenReturn(Optional.of(testAccount));
         when(accountRepositoryMock.save(any(Account.class))).thenReturn(testAccount);
 
-        Optional<AccountViewDto> accountViewDto = accountService.updateAccount(OperationType.REPLENISHMENT, testAccountUpdateDto);
+        AccountViewDto accountViewDto = accountService.updateAccount(OperationType.REPLENISHMENT, testAccountUpdateDto);
 
         verify(accountRepositoryMock, times(1)).findById(anyLong());
         verify(accountRepositoryMock, times(1)).save(any(Account.class));
-        assertTrue(accountViewDto.isPresent());
-        assertEquals("101.00",accountViewDto.get().getAmount());
+        assertEquals("101.00",accountViewDto.getAmount());
     }
 
     @Test
@@ -107,12 +106,11 @@ public class AccountServiceImplTest {
         when(accountRepositoryMock.findById(anyLong())).thenReturn(Optional.of(testAccount));
         when(accountRepositoryMock.save(any(Account.class))).thenReturn(testAccount);
 
-        Optional<AccountViewDto> accountViewDto = accountService.updateAccount(OperationType.WITHDRAWAL, testAccountUpdateDto);
+        AccountViewDto accountViewDto = accountService.updateAccount(OperationType.WITHDRAWAL, testAccountUpdateDto);
 
         verify(accountRepositoryMock, times(1)).findById(anyLong());
         verify(accountRepositoryMock, times(1)).save(any(Account.class));
-        assertTrue(accountViewDto.isPresent());
-        assertEquals("99.00",accountViewDto.get().getAmount());
+        assertEquals("99.00",accountViewDto.getAmount());
     }
 
     private AccountViewDto getAccountViewDto() {
