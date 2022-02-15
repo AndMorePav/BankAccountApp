@@ -1,5 +1,6 @@
 package reckoning.resource;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -11,8 +12,8 @@ import reckoning.dto.LoginDto;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@Api
 @RequestMapping("/token")
-
 public interface TokenController {
 
     @ApiOperation(value = "Create token")

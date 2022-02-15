@@ -13,8 +13,8 @@ import reckoning.dto.UserViewDto;
 
 import java.util.List;
 
-@RequestMapping("/users")
 @Api
+@RequestMapping("/users")
 public interface UserController {
 
     /**

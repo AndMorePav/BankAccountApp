@@ -22,7 +22,7 @@ public interface UserMapper {
     @Mapping(target = "accounts", ignore = true)
     User map(UserCreateDto userDto);
 
-    @Mapping(target = "withAccounts", source = "user.accounts")
+    @Mapping(target = "accounts", source = "user.accounts")
     UserViewDto map(User user);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

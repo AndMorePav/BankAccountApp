@@ -1,17 +1,13 @@
 package reckoning.dto;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-@Value
-@AllArgsConstructor
-@Builder(setterPrefix = "with")
-@JsonDeserialize(builder = UserCreateDto.UserCreateDtoBuilder.class)
+@Data
+@Accessors(chain = true)
 public class UserCreateDto {
 
     @NotBlank

@@ -51,13 +51,12 @@ public class UserServiceImplTest {
                 .setUsername("testtest")
                 .setAccounts(Collections.emptyList());
 
-        userViewDto = UserViewDto.builder()
-                .withId(1L)
-                .withFirstName("testtest")
-                .withLastName("testtest")
-                .withUsername("testtest")
-                .withAccounts(Collections.emptyList())
-                .build();
+        userViewDto = new UserViewDto()
+                .setId(1L)
+                .setFirstName("testtest")
+                .setLastName("testtest")
+                .setUsername("testtest")
+                .setAccounts(Collections.emptyList());
     }
 
     @Test
@@ -107,30 +106,27 @@ public class UserServiceImplTest {
     }
 
     private UserCreateDto getUserCreateDto() {
-        return UserCreateDto.builder()
-                .withFirstName("testtest")
-                .withLastName("testtest")
-                .withUsername("testtest")
-                .withPassword("password")
-                .withRepeatPassword("password")
-                .build();
+        return new UserCreateDto()
+                .setFirstName("testtest")
+                .setLastName("testtest")
+                .setUsername("testtest")
+                .setPassword("password")
+                .setRepeatPassword("password");
     }
 
     private UserCreateDto getUserCreateDtoWithWrongPassword() {
-        return UserCreateDto.builder()
-                .withFirstName("testtest")
-                .withLastName("testtest")
-                .withUsername("testtest")
-                .withPassword("password")
-                .withRepeatPassword("NotSamePassword")
-                .build();
+        return new UserCreateDto()
+                .setFirstName("testtest")
+                .setLastName("testtest")
+                .setUsername("testtest")
+                .setPassword("password")
+                .setRepeatPassword("NotSamePassword");
     }
 
     private UserPatchDto getUserPatchDto() {
-        return UserPatchDto.builder()
-                .withFirstName("testtest")
-                .withLastName("testtest")
-                .withUsername("testtest")
-                .build();
+        return new UserPatchDto()
+                .setFirstName("testtest")
+                .setLastName("testtest")
+                .setUsername("testtest");
     }
 }

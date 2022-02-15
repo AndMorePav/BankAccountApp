@@ -17,7 +17,7 @@ import java.util.List;
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface AccountMapper {
 
-    @Mapping(target = "withUserId", source = "account.user", qualifiedByName = "userToUserId")
+    @Mapping(target = "userId", source = "account.user", qualifiedByName = "userToUserId")
     AccountViewDto map(Account account);
 
     List<AccountViewDto> map(List<Account> account);
