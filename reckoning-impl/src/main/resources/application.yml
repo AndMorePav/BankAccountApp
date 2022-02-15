@@ -1,0 +1,33 @@
+spring:
+  profiles:
+    active: local
+  flyway:
+    ignore-missing-migrations: true
+  mvc:
+    contentnegotiation:
+      favor-path-extension: true
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/testdb
+    username: postgres
+    password: postgrespass
+    hikari:
+      maximum-pool-size: 10000
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        use_sql_comments: true
+        format_sql: true
+        enable_lazy_load_no_trans: true
+logging:
+  level:
+    org:
+      hibernate:
+        type: TRACE
