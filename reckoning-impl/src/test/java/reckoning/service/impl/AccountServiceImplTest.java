@@ -11,6 +11,7 @@ import reckoning.domain.User;
 import reckoning.dto.AccountCreateDto;
 import reckoning.dto.AccountUpdateDto;
 import reckoning.dto.AccountViewDto;
+import reckoning.exception.AccountNotEnableException;
 import reckoning.mapper.AccountMapperImpl;
 import reckoning.repository.AccountRepository;
 import reckoning.repository.UserRepository;
@@ -55,10 +56,8 @@ public class AccountServiceImplTest {
                 .setUser(new User())
                 .setAccountJournals(Collections.EMPTY_LIST);
 
-        testAccountUpdateDto = AccountUpdateDto.builder()
-                .withAccountId(1L)
-                .withAmount("1.0")
-                .build();
+        testAccountUpdateDto = new AccountUpdateDto(1L)
+                .setAmount("1.0");
 
         testUser = new User()
                 .setId(1L)
@@ -81,7 +80,7 @@ public class AccountServiceImplTest {
         assertEquals(getAccountViewDto(), resultAccountViewDto);
     }
 
-    @Test
+    @Test(expected = AccountNotEnableException.class)
     public void whenUpdateAccount_accountNotEnabled_thenNotSave() {
         when(accountRepositoryMock.findById(anyLong())).thenReturn(Optional.of(testAccount.setEnabled(false)));
 
@@ -115,16 +114,13 @@ public class AccountServiceImplTest {
     }
 
     private AccountViewDto getAccountViewDto() {
-        return AccountViewDto.builder()
-                .withId(1L)
-                .withAmount("100")
-                .withEnabled("true")
-                .build();
+        return new AccountViewDto()
+                .setId(1L)
+                .setAmount("100")
+                .setEnabled("true");
     }
 
     private AccountCreateDto getAccountCreateDto() {
-        return AccountCreateDto.builder()
-                .withUserId(1L)
-                .build();
+        return new AccountCreateDto(1L);
     }
 }

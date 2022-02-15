@@ -1,16 +1,12 @@
 package reckoning.dto;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.List;
 
-@Value
-@AllArgsConstructor
-@Builder(setterPrefix = "with")
-@JsonDeserialize(builder = UserViewDto.UserViewDtoBuilder.class)
+@Data
+@Accessors(chain = true)
 public class UserViewDto {
 
     Long id;

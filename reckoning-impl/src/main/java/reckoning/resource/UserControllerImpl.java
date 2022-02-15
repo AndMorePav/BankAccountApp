@@ -8,6 +8,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import reckoning.dto.UserCreateDto;
 import reckoning.dto.UserPatchDto;
 import reckoning.dto.UserViewDto;
@@ -18,7 +19,7 @@ import java.util.List;
 /**
  * Controller for work with users.
  */
-@Controller
+@RestController
 @RequiredArgsConstructor
 @CrossOrigin
 public class UserControllerImpl implements UserController {

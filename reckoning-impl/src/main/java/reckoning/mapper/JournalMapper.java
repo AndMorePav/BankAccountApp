@@ -17,7 +17,7 @@ import java.util.Objects;
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface JournalMapper {
 
-    @Mapping(target = "withAccountId", source = "journal.account", qualifiedByName = "accountToAccountId")
+    @Mapping(target = "accountId", source = "journal.account", qualifiedByName = "accountToAccountId")
     JournalViewDto map(Journal journal);
 
     List<JournalViewDto> map(List<Journal> journal);

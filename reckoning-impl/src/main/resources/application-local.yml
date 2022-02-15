@@ -18,9 +18,6 @@ spring:
         use_sql_comments: true
         format_sql: true
         enable_lazy_load_no_trans: true
-#  security:
-#    user:
-#      name: user1
 logging:
   level:
     org:

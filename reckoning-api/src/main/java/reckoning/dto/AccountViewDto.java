@@ -1,14 +1,10 @@
 package reckoning.dto;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
-@Value
-@AllArgsConstructor
-@Builder(setterPrefix = "with")
-@JsonDeserialize(builder = AccountViewDto.AccountViewDtoBuilder.class)
+@Data
+@Accessors(chain = true)
 public class AccountViewDto {
 
     Long id;
