@@ -20,6 +20,7 @@
 		<testcontainers.version>1.15.2</testcontainers.version>
 		<org.mapstruct.version>1.4.1.Final</org.mapstruct.version>
 		<swagger.version>2.9.2</swagger.version>
+		<h2.version>1.4.200</h2.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -87,6 +88,11 @@
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt</artifactId>
 			<version>0.9.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>${h2.version}</version>
 		</dependency>
 
 	</dependencies>
